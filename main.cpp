@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <random>
+#include <typeinfo>
 
 using namespace std;
 
@@ -18,6 +19,9 @@ double generate_random()
 DIM populateGraph() {
 
     DIM graph;
+    graph.init();
+
+    graph.set_beta(128); // Set beta=32
 
     // read the file and populate the graph
     string line;
@@ -28,14 +32,15 @@ DIM populateGraph() {
         while (getline (graphFile, line))
         {
             // parse the line and insert that edge in the graph with a random probability
-            int src = line.at(0);
-            int dest = line.at(2);
+            // cout << line << endl;
+            int src = line.at(0) - '0';
+            int dest = line.at(2) - '0';
             double prob = generate_random();
-            dim.insert(src, dest, prob);
+            cout << "Src: " << src << "Dest: " << dest << "p: " << prob << endl;
+            graph.insert(src, dest, prob);
         }
         graphFile.close();
     }
-    dim.set_beta(128); // Set beta=32
 
     else cout << "Unable to open file";
 
@@ -43,9 +48,23 @@ DIM populateGraph() {
 }
 
 int main(int argc, char *argv[]) {
-	
-    DIM dim = populateGraph(dim);
-	
+	// DIM dim;
+	// dim.init(); // Call at the beginning
+
+	// dim.insert(0); // Insert vertex 0
+	// dim.insert(1); // Insert vertex 1
+	// dim.insert(0, 1, 0.4); // Insert edge (0,1) with probability 0.5
+	// dim.set_beta(128); // Set beta=32
+
+	// dim.insert(2); // Insert vertex 2
+	// dim.insert(3); // Insert vertex 3
+
+	// dim.insert(1, 2, 0.5); // Insert edge (1,2) with probability 0.6
+	// dim.insert(2, 0, 0.6); // Insert edge (2,0) with probability 0.7
+	// dim.insert(2, 3, 0.7); // Insert edge (2,3) with probability 0.8
+
+    DIM dim = populateGraph();
+
 	for (int v = 0; v < 4; v++)
 		printf("Influence of %d is %1.6f\n", v, dim.infest(v));
 	printf("Most influential vertex is %d\n", dim.infmax(1)[0]);
@@ -66,4 +85,3 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
-
