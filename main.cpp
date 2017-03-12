@@ -21,11 +21,13 @@ DIM populateGraph() {
     DIM graph;
     graph.init();
 
-    graph.set_beta(128); // Set beta=32
+    graph.set_beta(2); // Set beta=32
 
     // read the file and populate the graph
     string line;
-    ifstream graphFile ("miniGraph.txt");
+    int src, dest;
+    double prob;
+    ifstream graphFile ("output.txt");
 
     //create a vector to store the nodes
     vector<int> nodes;
@@ -37,11 +39,11 @@ DIM populateGraph() {
         while (getline (graphFile, line))
         {
             posOfSpace = line.find(" ");
-            int src = stoi(line.substr(0, posOfSpace));
-            int dest = stoi(line.substr(posOfSpace));
+            src = stoi(line.substr(0, posOfSpace));
+            dest = stoi(line.substr(posOfSpace));
                 
             //cout << "Src: " << src << " Dest: " << dest << endl;
-            double prob = generate_random();
+            prob = generate_random();
 
             if(find(nodes.begin(), nodes.end(), src) != nodes.end()) {
                 /* v contains x */
@@ -57,8 +59,8 @@ DIM populateGraph() {
                 nodes.push_back(dest);
                 graph.insert(dest);
             }
-            
-            graph.insert(src, dest, prob);
+            if(src != dest)
+                graph.insert(src, dest, prob);
         }
         graphFile.close();
     }
