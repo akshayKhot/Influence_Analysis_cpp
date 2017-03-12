@@ -94,6 +94,7 @@ public:
 	void change(int u, int v, double p); //  // Change prob of Edge (u,v) to 0.9
 
 	// Queries
+    int numOfNodes(); // calculate total number of nodes
 	vector<int> infmax(int k); // Extract an influential set of k vertices
 	double infest_naive(vector<int> &S); // Estimate the influence of S (slow impl.)
 	double infest(vector<int> &S); // Estimate the influence of S (fast impl.)

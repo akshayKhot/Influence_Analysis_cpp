@@ -554,6 +554,10 @@ void DIM::_adjust() {
 
 }
 
+int DIM::numOfNodes() {
+    return V.size();
+}
+
 vector<int> DIM::infmax(int k) {
 	int n = *(V.rbegin()) + 1;
 	vector<ULL> degs(n);
